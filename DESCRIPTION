@@ -14,3 +14,6 @@ Imports:
     svDialogs
 URL: https://github.com/DCEW/projectlog
 BugReports: https://github.com/DCEW/projectlog/issues
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

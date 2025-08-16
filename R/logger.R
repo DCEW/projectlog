@@ -11,16 +11,21 @@
 logger <- function() {
   project = here::here() #find the project you're in
 
-  logslist <- list.files(path=Sys.getenv("LOG_PATH"))
+  logslist <- c("Create New File",list.files(path=Sys.getenv("LOG_PATH")))
   file.choice <- svDialogs::dlg_list(choices = logslist,
     preselect = NULL,
     multiple = FALSE)$res
 
+  if (file.choice == "Create New File") {
+    new.file <- svDialogs::dlgInput("New file name:", default = NA)$res
+    file.create(file.path = paste0(Sys.getenv("LOG_PATH"), "/",new.file, ".qmd"))
+    file.choice <- new.file
+  }
   text_to_add <- svDialogs::dlgInput("Enter text to be appended")$res
 
   CON = file(paste0(Sys.getenv("LOG_PATH"),"/",file.choice), "a")
   proj_name = stringr::str_extract(project, "([^/]+$)")
-  writeLines(paste(Sys.Date(), ":", "Project : \"", proj_name, "Note = ", text_to_add),
+  writeLines(paste(Sys.Date(), ":", "Project : ", proj_name, "Note = ", text_to_add),
   con = ,CON,
   sep = "\n", useBytes = FALSE)
 
