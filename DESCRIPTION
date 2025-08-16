@@ -12,3 +12,5 @@ Imports:
     here,
     stringr,
     svDialogs
+URL: https://github.com/DCEW/projectlog
+BugReports: https://github.com/DCEW/projectlog/issues
