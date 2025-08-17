@@ -25,8 +25,8 @@ logger <- function() {
 
   CON = file(paste0(Sys.getenv("LOG_PATH"),"/",file.choice), "a")
   proj_name = stringr::str_extract(project, "([^/]+$)")
-  writeLines(paste(Sys.Date(), ":", "Project : ", proj_name, "Note = ", text_to_add),
-  con = ,CON,
-  sep = "\n", useBytes = FALSE)
+  cat(paste(Sys.Date(),
+                   paste0("Project: ", proj_name),
+                   paste0("Note = ", text_to_add),sep = "\n"), file = CON, append = TRUE)
 
 }
