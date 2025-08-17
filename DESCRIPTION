@@ -10,8 +10,10 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Imports: 
     here,
+    mockery,
     stringr,
-    svDialogs
+    svDialogs,
+    withr
 URL: https://github.com/DCEW/projectlog
 BugReports: https://github.com/DCEW/projectlog/issues
 Suggests: 

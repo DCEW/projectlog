@@ -9,24 +9,52 @@
 #' @export
 
 logger <- function() {
+
   project = here::here() #find the project you're in
 
+  proj_name = stringr::str_extract(project, "([^/]+$)")
+
+  if (proj_name == "Documents"){
+    stop("You need to be in an active Rproj for this to work!")
+  }
+
   logslist <- c("Create New File",list.files(path=Sys.getenv("LOG_PATH")))
+
   file.choice <- svDialogs::dlg_list(choices = logslist,
     preselect = NULL,
     multiple = FALSE)$res
 
   if (file.choice == "Create New File") {
-    new.file <- svDialogs::dlgInput("New file name:", default = NA)$res
-    file.create(file.path = paste0(Sys.getenv("LOG_PATH"), "/",new.file, ".qmd"))
-    file.choice <- new.file
-  }
-  text_to_add <- svDialogs::dlgInput("Enter text to be appended")$res
 
-  CON = file(paste0(Sys.getenv("LOG_PATH"),"/",file.choice), "a")
-  proj_name = stringr::str_extract(project, "([^/]+$)")
-  cat(paste(Sys.Date(),
-                   paste0("Project: ", proj_name),
-                   paste0("Note = ", text_to_add),sep = "\n"), file = CON, append = TRUE)
+    new.file <- svDialogs::dlgInput("New file name:", default = NA)$res
+
+    file.create(file.path = paste0(Sys.getenv("LOG_PATH"), "/",new.file, ".qmd"))
+
+    text_to_add <- svDialogs::dlgInput("Enter text to be appended")$res
+
+    CON = file(paste0(Sys.getenv("LOG_PATH"),"/",new.file, ".qmd"), "a")
+
+    proj_name = stringr::str_extract(project, "([^/]+$)")
+
+    cat(paste("\n",
+              Sys.Date(),
+              paste0("Project:", proj_name),
+              paste0("Note =", text_to_add),sep = "\n"), file = CON, append = TRUE)
+
+  } else {
+
+    text_to_add <- svDialogs::dlgInput("Enter text to be appended")$res
+
+    CON = file(paste0(Sys.getenv("LOG_PATH"),"/",file.choice), "a")
+
+    proj_name = stringr::str_extract(project, "([^/]+$)")
+
+    cat(paste("\n",Sys.Date(),
+              paste("Project:", proj_name),
+              paste("Note =", text_to_add),sep = "\n"), file = CON, append = TRUE)
+  }
+
+
+
 
 }
